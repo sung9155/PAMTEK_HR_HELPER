@@ -36,49 +36,61 @@ Pamtek 근태 시스템 자동화 도우미 - Selenium 기반 실시간 출퇴�
 └─────────────────────┘
 ```
 
-## 🚀 빠른 시작 (Docker - 권장)
+## 🚀 빠른 시작
 
-### 1. 저장소 클론
+### 방법 1: Portainer로 실행 (웹 UI - 가장 쉬움) ⭐
 
-```bash
-git clone https://github.com/YOUR_USERNAME/Pamtek_HR_Helper.git
-cd Pamtek_HR_Helper
-```
+1. **저장소 클론**
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/Pamtek_HR_Helper.git
+   cd Pamtek_HR_Helper
+   ```
 
-### 2. 환경 변수 설정
+2. **이미지 빌드**
+   ```bash
+   docker build -t pamtek-hr-helper:latest .
+   ```
 
-`.env` 파일 생성:
+3. **Portainer 접속**
+   - 브라우저에서 `http://localhost:9000` 접속
+   - Stacks → Add stack → 이름: `pamtek-hr-helper`
+   - `portainer-stack.yml` 내용 붙여넣기
+   - 환경 변수 입력 (PAMTEK_USER_ID, PAMTEK_PASSWORD)
+   - Deploy the stack 클릭
 
-```bash
-cp .env.example .env
-# .env 파일을 열어서 로그인 정보 입력
-```
+자세한 내용은 [Portainer 실행 가이드](PORTAINER_GUIDE.md)를 참고하세요.
 
-`.env` 내용:
-```env
-PAMTEK_USER_ID=your_id
-PAMTEK_PASSWORD=your_password
-```
+### 방법 2: Docker Compose로 실행
 
-### 3. Docker로 실행
+1. **저장소 클론**
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/Pamtek_HR_Helper.git
+   cd Pamtek_HR_Helper
+   ```
 
-```bash
-# 빌드 및 실행
-docker-compose up -d
+2. **환경 변수 설정**
+   ```bash
+   cp .env.example .env
+   # .env 파일을 열어서 로그인 정보 입력
+   ```
 
-# 로그 확인
-docker-compose logs -f
-```
+3. **Docker로 실행**
+   ```bash
+   # 빌드 및 실행
+   docker-compose up -d
 
-### 4. 접속 확인
+   # 로그 확인
+   docker-compose logs -f
+   ```
 
-```bash
-# 헬스 체크
-curl http://localhost:5000/health
+4. **접속 확인**
+   ```bash
+   # 헬스 체크
+   curl http://localhost:5000/health
 
-# 출근 상태 확인
-curl http://localhost:5000/api/status
-```
+   # 출근 상태 확인
+   curl http://localhost:5000/api/status
+   ```
 
 ## 🐍 Python으로 직접 실행
 
@@ -130,8 +142,9 @@ python main_selenium.py
 
 ## 📚 문서
 
+- [Portainer 실행 가이드](PORTAINER_GUIDE.md) - 웹 UI로 쉽게 배포하기 (권장)
+- [Docker 실행 가이드](DOCKER_GUIDE.md) - Docker Compose 명령어로 배포
 - [iOS Shortcuts 설정 가이드](docs/iOS_Shortcuts_Guide.md) - 영어 버전 iOS 기준
-- [Docker 실행 가이드](DOCKER_GUIDE.md) - Docker 배포 상세 설명
 
 ## 🔧 API 엔드포인트
 
