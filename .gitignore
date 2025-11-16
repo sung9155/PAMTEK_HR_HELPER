@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+*.egg-info/
+dist/
+build/
+
+# Config & Secrets (CRITICAL - DO NOT COMMIT!)
+.env
+config/credentials.enc
+config/settings.json
+
+# Test files
+test_*.py
+*.html
+test_output.txt
+
+# Selenium drivers
+chromedriver*
+geckodriver*
+
+# Logs
+logs/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary
+tmp/
+temp/
+*.tmp

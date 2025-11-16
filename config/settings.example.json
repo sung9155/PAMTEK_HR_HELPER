@@ -1,0 +1,24 @@
+{
+  "company_location": {
+    "latitude": 37.5665,
+    "longitude": 126.9780,
+    "radius_meters": 100,
+    "name": "회사"
+  },
+  "work_schedule": {
+    "start_time": "09:00",
+    "end_time": "18:00",
+    "check_times": {
+      "morning": "08:30",
+      "evening": "18:00"
+    }
+  },
+  "notification": {
+    "enable": true,
+    "methods": ["api"]
+  },
+  "attendance_app": {
+    "name": "Pamtek 근태앱",
+    "ios_url_scheme": ""
+  }
+}

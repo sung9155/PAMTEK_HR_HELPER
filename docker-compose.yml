@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  pamtek-hr-helper:
+    build: .
+    container_name: pamtek-hr-helper
+    ports:
+      - "5000:5000"
+    environment:
+      - PAMTEK_USER_ID=${PAMTEK_USER_ID}
+      - PAMTEK_PASSWORD=${PAMTEK_PASSWORD}
+    env_file:
+      - .env
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    # Chrome이 headless 모드로 실행되도록 추가 설정
+    shm_size: '2gb'
+    # 로그 설정
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
