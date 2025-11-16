@@ -59,28 +59,85 @@ docker run -d ^
 
 Portainer에서 Stack을 배포하기 전에 먼저 Docker 이미지를 빌드해야 합니다.
 
-### 방법 1: 로컬에서 빌드 (권장)
+### 방법 1: Windows PowerShell/CMD에서 빌드 (가장 쉬움) ⭐
 
-```bash
+**Windows PowerShell 또는 CMD를 관리자 권한으로 실행:**
+
+```powershell
 # 프로젝트 디렉토리로 이동
 cd d:\Utility\Pamtek_HR_Helper
 
-# Docker 이미지 빌드
+# Docker Desktop이 실행 중인지 확인
+docker --version
+
+# Docker 이미지 빌드 (5~10분 소요)
 docker build -t pamtek-hr-helper:latest .
 
 # 빌드 확인
-docker images | grep pamtek-hr-helper
+docker images
 ```
 
-### 방법 2: Portainer UI에서 빌드
+**빌드 성공 확인:**
+```
+REPOSITORY            TAG       IMAGE ID       CREATED         SIZE
+pamtek-hr-helper      latest    xxxxxxxxxxxxx  1 minute ago    1.5GB
+```
 
-1. Portainer 메뉴에서 **Images** 클릭
-2. **Build a new image** 클릭
-3. 설정:
-   - **Name**: `pamtek-hr-helper:latest`
-   - **Build method**: Upload
-   - 프로젝트 폴더를 ZIP으로 압축하여 업로드
-4. **Build the image** 클릭
+### 방법 2: Portainer UI에서 직접 빌드 (복잡함)
+
+**⚠️ 주의: Portainer UI 빌드는 다음과 같은 제약이 있습니다:**
+- 프로젝트 전체를 ZIP으로 압축해야 함
+- 파일 크기 제한 (보통 10MB)
+- 빌드 시간 제한
+- 에러 메시지가 불명확함
+
+**Portainer UI에서 빌드가 실패하는 경우:**
+
+1. **방법 1 (PowerShell 빌드)을 사용하세요** - 가장 안정적입니다
+2. 또는 아래 방법 3 (Git Repository)을 사용하세요
+
+### 방법 3: GitHub에서 자동 빌드 (고급)
+
+**Stack 설정 시 build 옵션 사용:**
+
+`portainer-stack.yml` 수정:
+
+```yaml
+version: '3.8'
+
+services:
+  pamtek-hr-helper:
+    build:
+      context: https://github.com/sung9155/PAMTEK_HR_HELPER.git
+      dockerfile: Dockerfile
+    image: pamtek-hr-helper:latest
+    container_name: pamtek-hr-helper
+    ports:
+      - "5000:5000"
+    environment:
+      - PAMTEK_USER_ID=${PAMTEK_USER_ID}
+      - PAMTEK_PASSWORD=${PAMTEK_PASSWORD}
+    restart: unless-stopped
+    shm_size: '2gb'
+```
+
+**⚠️ 주의:**
+- Portainer는 Git URL 빌드를 제한적으로 지원합니다
+- Public 저장소만 가능합니다
+- 빌드 시간이 오래 걸릴 수 있습니다
+
+### 권장 워크플로우 (가장 확실한 방법)
+
+1. **Windows에서 이미지 빌드:**
+   ```powershell
+   cd d:\Utility\Pamtek_HR_Helper
+   docker build -t pamtek-hr-helper:latest .
+   ```
+
+2. **Portainer에서 Stack 배포:**
+   - 이미 빌드된 이미지(`pamtek-hr-helper:latest`)를 사용
+   - Stack 설정에서 환경 변수만 입력
+   - Deploy 클릭
 
 ---
 
