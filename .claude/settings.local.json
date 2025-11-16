@@ -11,7 +11,12 @@
       "Bash(findstr:*)",
       "Bash(git init:*)",
       "Bash(git config:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nInitial commit: Pamtek HR Helper - Selenium-based Attendance Automation\n\nThis project automates Pamtek HR attendance checking with iOS Shortcuts integration.\n\nFeatures:\n- Selenium-based login with JavaScript encryption bypass\n- Automatic re-login on session expiration\n- Real-time attendance status checking (page refresh on every API call)\n- Weekend detection (server-side weekday checking)\n- Docker deployment support (Chrome + ChromeDriver)\n- iOS Shortcuts integration for location/time-based automation\n- Comprehensive documentation (README, Docker Guide, iOS Guide)\n\nTech Stack:\n- Flask REST API server\n- Selenium WebDriver for browser automation\n- BeautifulSoup for HTML parsing\n- Docker containerization\n- iOS Shortcuts for automation triggers\n\nAPI Endpoints:\n- GET /api/status - Real-time attendance status with weekend detection\n- GET /api/summary - Simple text summary\n- GET /health - Health check\n\nSecurity:\n- .env file excluded from git\n- Environment variables for credentials\n- No test files or debug HTML committed\n\nReady for deployment on any computer with Docker.\nEOF\n)\")",
+      "Bash(git commit -m \"$(cat <<''EOF''\nAdd Portainer support for easy web UI deployment\n\n- Add portainer-stack.yml for Portainer Stack deployment\n- Add PORTAINER_GUIDE.md with comprehensive Portainer setup guide\n- Update README.md with Portainer quick start section (recommended method)\n- Support web UI-based container management (logs, restart, monitoring)\n- Include environment variable and secrets management guide\n- Add troubleshooting and advanced configuration sections\n\nUsers can now deploy and manage the app through Portainer''s web interface\nwithout using CLI commands, making it more accessible for non-technical users.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git push)",
+      "Bash(venv/Scripts/pip install:*)",
+      "Bash(venv/Scripts/playwright install:*)"
     ],
     "deny": [],
     "ask": []

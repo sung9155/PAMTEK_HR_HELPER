@@ -1,6 +1,6 @@
 # Pamtek HR Helper
 
-Pamtek 근태 시스템 자동화 도우미 - Selenium 기반 실시간 출퇴근 확인
+Pamtek 근태 시스템 자동화 도우미 - Playwright 기반 실시간 출퇴근 확인
 
 ## 🎯 주요 기능
 
@@ -16,11 +16,12 @@ Pamtek 근태 시스템 자동화 도우미 - Selenium 기반 실시간 출퇴�
 ```
 ┌─────────────────────┐
 │   Flask API Server  │
-│  (Selenium-based)   │
+│ (Playwright-based)  │
 │                     │
 │  - Auto re-login    │
 │  - Real-time data   │
 │  - Weekend check    │
+│  - Fast & stable    │
 └─────────────────────┘
           ↓
     ┌─────────┐
@@ -38,67 +39,11 @@ Pamtek 근태 시스템 자동화 도우미 - Selenium 기반 실시간 출퇴�
 
 ## 🚀 빠른 시작
 
-### 방법 1: Portainer로 실행 (웹 UI - 가장 쉬움) ⭐
-
-1. **저장소 클론**
-   ```bash
-   git clone https://github.com/YOUR_USERNAME/Pamtek_HR_Helper.git
-   cd Pamtek_HR_Helper
-   ```
-
-2. **이미지 빌드**
-   ```bash
-   docker build -t pamtek-hr-helper:latest .
-   ```
-
-3. **Portainer 접속**
-   - 브라우저에서 `http://localhost:9000` 접속
-   - Stacks → Add stack → 이름: `pamtek-hr-helper`
-   - `portainer-stack.yml` 내용 붙여넣기
-   - 환경 변수 입력 (PAMTEK_USER_ID, PAMTEK_PASSWORD)
-   - Deploy the stack 클릭
-
-자세한 내용은 [Portainer 실행 가이드](PORTAINER_GUIDE.md)를 참고하세요.
-
-### 방법 2: Docker Compose로 실행
-
-1. **저장소 클론**
-   ```bash
-   git clone https://github.com/YOUR_USERNAME/Pamtek_HR_Helper.git
-   cd Pamtek_HR_Helper
-   ```
-
-2. **환경 변수 설정**
-   ```bash
-   cp .env.example .env
-   # .env 파일을 열어서 로그인 정보 입력
-   ```
-
-3. **Docker로 실행**
-   ```bash
-   # 빌드 및 실행
-   docker-compose up -d
-
-   # 로그 확인
-   docker-compose logs -f
-   ```
-
-4. **접속 확인**
-   ```bash
-   # 헬스 체크
-   curl http://localhost:5000/health
-
-   # 출근 상태 확인
-   curl http://localhost:5000/api/status
-   ```
-
-## 🐍 Python으로 직접 실행
-
 ### 1. 저장소 클론
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/Pamtek_HR_Helper.git
-cd Pamtek_HR_Helper
+git clone https://github.com/sung9155/PAMTEK_HR_HELPER.git
+cd PAMTEK_HR_HELPER
 ```
 
 ### 2. 가상환경 생성 및 의존성 설치
@@ -119,16 +64,27 @@ pip install -r requirements.txt
 
 ### 3. 환경 변수 설정
 
-```bash
-cp .env.example .env
-# .env 파일 수정
-```
-
-### 4. 서버 실행
+`.env` 파일 생성 및 로그인 정보 입력:
 
 ```bash
-python main_selenium.py
+PAMTEK_USER_ID=your_user_id
+PAMTEK_PASSWORD=your_password
 ```
+
+### 4. Playwright 브라우저 설치
+
+```bash
+# 가상환경 활성화된 상태에서
+playwright install chromium
+```
+
+### 5. 서버 실행
+
+```bash
+python main_playwright.py
+```
+
+서버가 시작되면 `http://localhost:5000` 또는 `http://[YOUR_PC_IP]:5000`에서 접속 가능합니다.
 
 ## 📱 iOS Shortcuts 설정
 
@@ -142,8 +98,6 @@ python main_selenium.py
 
 ## 📚 문서
 
-- [Portainer 실행 가이드](PORTAINER_GUIDE.md) - 웹 UI로 쉽게 배포하기 (권장)
-- [Docker 실행 가이드](DOCKER_GUIDE.md) - Docker Compose 명령어로 배포
 - [iOS Shortcuts 설정 가이드](docs/iOS_Shortcuts_Guide.md) - 영어 버전 iOS 기준
 
 ## 🔧 API 엔드포인트
@@ -200,15 +154,11 @@ python main_selenium.py
 
 ### 서버 접속 안됨
 
-```bash
-# 서버 상태 확인 (Docker)
-docker-compose ps
-
-# 로그 확인
-docker-compose logs -f
-
-# 직접 실행 시 방화벽 확인
-```
+**확인 사항:**
+1. 서버가 실행 중인지 확인
+2. 방화벽 설정 확인 (5000 포트 허용)
+3. PC와 iPhone이 같은 네트워크에 있는지 확인
+4. PC의 IP 주소가 올바른지 확인 (`ipconfig` 명령어로 확인)
 
 ### 세션 만료
 
@@ -225,17 +175,25 @@ docker-compose logs -f
 ## 📋 요구사항
 
 - Python 3.11+
-- Chrome 브라우저 (Selenium용)
-- Docker & Docker Compose (선택사항, 권장)
 - iOS 14+ (Shortcuts 앱)
+- 서버를 항상 실행할 PC (Windows/Mac/Linux)
+- 인터넷 연결 (Playwright가 Chromium 브라우저 자동 다운로드)
 
 ## 🌟 주요 기술
 
 - **Flask** - REST API 서버
-- **Selenium** - 브라우저 자동화 (암호화 우회)
+- **Playwright** - 현대적이고 빠른 브라우저 자동화 (Selenium보다 2-3배 빠름)
 - **BeautifulSoup** - HTML 파싱
-- **Docker** - 컨테이너화 배포
 - **iOS Shortcuts** - 자동화 트리거
+- **Python Virtual Environment** - 의존성 격리
+
+## 💡 Selenium에서 Playwright로 전환한 이유
+
+- **속도**: Selenium보다 2-3배 빠른 페이지 로딩 및 작업 실행
+- **안정성**: 자동 대기(auto-wait) 및 재시도 메커니즘 내장
+- **리소스 효율**: 헤드리스 모드 최적화로 메모리 사용량 절감
+- **현대적 API**: async/await 지원 및 더 직관적인 API
+- **브라우저 자동 설치**: ChromeDriver 수동 설치 불필요
 
 ## 📝 License
 
